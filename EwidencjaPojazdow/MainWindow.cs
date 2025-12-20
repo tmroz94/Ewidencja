@@ -14,19 +14,19 @@ namespace EwidencjaPojazdow
             InitializeComponent();
             ApplyDarkTheme();
             SetupDataGridView();
-            this.btnAddVehicle.Click += BtnAddVehicle_Click;
-            this.dataGridView.CellClick += DataGridView_CellClick;
+            btnAddVehicle.Click += BtnAddVehicle_Click;
+            dataGridView.CellClick += DataGridView_CellClick;
         }
 
         private void ApplyDarkTheme()
         {
-            this.BackColor = Constants.Colors.DarkBackground;
-            this.ForeColor = Constants.Colors.TextColor;
+            BackColor = Constants.Colors.DarkBackground;
+            ForeColor = Constants.Colors.TextColor;
 
-            this.formPanel.BackColor = Constants.Colors.DarkPanel;
-            this.formPanel.ForeColor = Constants.Colors.TextColor;
+            formPanel.BackColor = Constants.Colors.DarkPanel;
+            formPanel.ForeColor = Constants.Colors.TextColor;
 
-            foreach (Control control in this.formPanel.Controls)
+            foreach (Control control in formPanel.Controls)
             {
                 if (control is Label label)
                 {
@@ -36,7 +36,7 @@ namespace EwidencjaPojazdow
                 }
             }
 
-            foreach (Control control in this.formPanel.Controls)
+            foreach (Control control in formPanel.Controls)
             {
                 if (control is TextBox textBox)
                 {
@@ -47,7 +47,7 @@ namespace EwidencjaPojazdow
                 }
             }
 
-            foreach (Control control in this.formPanel.Controls)
+            foreach (Control control in formPanel.Controls)
             {
                 if (control is DateTimePicker dtp)
                 {
@@ -62,45 +62,45 @@ namespace EwidencjaPojazdow
                 }
             }
 
-            this.btnAddVehicle.BackColor = Constants.Colors.DarkButton;
-            this.btnAddVehicle.ForeColor = Constants.Colors.White;
-            this.btnAddVehicle.FlatStyle = FlatStyle.Flat;
-            this.btnAddVehicle.FlatAppearance.BorderColor = Constants.Colors.DarkButton;
-            this.btnAddVehicle.FlatAppearance.MouseOverBackColor = Constants.Colors.DarkButtonHover;
-            this.btnAddVehicle.FlatAppearance.MouseDownBackColor = Constants.Colors.DarkButtonDown;
-            this.btnAddVehicle.Font = new Font(this.btnAddVehicle.Font.FontFamily, 11, FontStyle.Bold);
-            this.btnAddVehicle.Cursor = Cursors.Hand;
-            this.btnAddVehicle.FlatAppearance.BorderSize = 0;
+            btnAddVehicle.BackColor = Constants.Colors.DarkButton;
+            btnAddVehicle.ForeColor = Constants.Colors.White;
+            btnAddVehicle.FlatStyle = FlatStyle.Flat;
+            btnAddVehicle.FlatAppearance.BorderColor = Constants.Colors.DarkButton;
+            btnAddVehicle.FlatAppearance.MouseOverBackColor = Constants.Colors.DarkButtonHover;
+            btnAddVehicle.FlatAppearance.MouseDownBackColor = Constants.Colors.DarkButtonDown;
+            btnAddVehicle.Font = new Font(btnAddVehicle.Font.FontFamily, 11, FontStyle.Bold);
+            btnAddVehicle.Cursor = Cursors.Hand;
+            btnAddVehicle.FlatAppearance.BorderSize = 0;
 
-            this.dataGridView.BackgroundColor = Constants.Colors.DarkBackground;
-            this.dataGridView.GridColor = Constants.Colors.GridLine;
-            this.dataGridView.DefaultCellStyle.BackColor = Constants.Colors.DarkPanel;
-            this.dataGridView.DefaultCellStyle.ForeColor = Constants.Colors.TextColor;
-            this.dataGridView.DefaultCellStyle.SelectionBackColor = Constants.Colors.GridSelection;
-            this.dataGridView.DefaultCellStyle.SelectionForeColor = Constants.Colors.White;
-            this.dataGridView.DefaultCellStyle.Font = new Font(this.dataGridView.Font.FontFamily, 10);
-            this.dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Constants.Colors.GridHeader;
-            this.dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Constants.Colors.TextColor;
-            this.dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(this.dataGridView.Font.FontFamily, 10, FontStyle.Bold);
-            this.dataGridView.ColumnHeadersHeight = 40;
-            this.dataGridView.RowTemplate.Height = 35;
-            this.dataGridView.AlternatingRowsDefaultCellStyle.BackColor = Constants.Colors.GridAlternatingRow;
-            this.dataGridView.AlternatingRowsDefaultCellStyle.ForeColor = Constants.Colors.TextColor;
-            this.dataGridView.ScrollBars = ScrollBars.Vertical;
-            this.dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.BackgroundColor = Constants.Colors.DarkBackground;
+            dataGridView.GridColor = Constants.Colors.GridLine;
+            dataGridView.DefaultCellStyle.BackColor = Constants.Colors.DarkPanel;
+            dataGridView.DefaultCellStyle.ForeColor = Constants.Colors.TextColor;
+            dataGridView.DefaultCellStyle.SelectionBackColor = Constants.Colors.GridSelection;
+            dataGridView.DefaultCellStyle.SelectionForeColor = Constants.Colors.White;
+            dataGridView.DefaultCellStyle.Font = new Font(dataGridView.Font.FontFamily, 10);
+            dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Constants.Colors.GridHeader;
+            dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Constants.Colors.TextColor;
+            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView.Font.FontFamily, 10, FontStyle.Bold);
+            dataGridView.ColumnHeadersHeight = 40;
+            dataGridView.RowTemplate.Height = 35;
+            dataGridView.AlternatingRowsDefaultCellStyle.BackColor = Constants.Colors.GridAlternatingRow;
+            dataGridView.AlternatingRowsDefaultCellStyle.ForeColor = Constants.Colors.TextColor;
+            dataGridView.ScrollBars = ScrollBars.Vertical;
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void SetupDataGridView()
         {
-            this.dataGridView.Columns.Clear();
-            this.dataGridView.Rows.Clear();
+            dataGridView.Columns.Clear();
+            dataGridView.Rows.Clear();
 
-            this.dataGridView.Columns.Add("RegistrationNumber", Constants.UI.ColumnRegistration);
-            this.dataGridView.Columns.Add("Brand", Constants.UI.ColumnBrand);
-            this.dataGridView.Columns.Add("Model", Constants.UI.ColumnModel);
-            this.dataGridView.Columns.Add("YearOfProduction", Constants.UI.ColumnYear);
-            this.dataGridView.Columns.Add("InspectionDate", Constants.UI.ColumnInspection);
-            this.dataGridView.Columns.Add("Owner", Constants.UI.ColumnOwner);
+            dataGridView.Columns.Add("RegistrationNumber", Constants.UI.ColumnRegistration);
+            dataGridView.Columns.Add("Brand", Constants.UI.ColumnBrand);
+            dataGridView.Columns.Add("Model", Constants.UI.ColumnModel);
+            dataGridView.Columns.Add("YearOfProduction", Constants.UI.ColumnYear);
+            dataGridView.Columns.Add("InspectionDate", Constants.UI.ColumnInspection);
+            dataGridView.Columns.Add("Owner", Constants.UI.ColumnOwner);
             
             DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn();
             deleteColumn.HeaderText = Constants.UI.ColumnDelete;
@@ -109,15 +109,15 @@ namespace EwidencjaPojazdow
             deleteColumn.FlatStyle = FlatStyle.Flat;
             deleteColumn.DefaultCellStyle.BackColor = Constants.Colors.AccentRed;
             deleteColumn.DefaultCellStyle.ForeColor = Constants.Colors.White;
-            deleteColumn.DefaultCellStyle.Font = new Font(this.dataGridView.Font.FontFamily, 12, FontStyle.Bold);
-            this.dataGridView.Columns.Add(deleteColumn);
+            deleteColumn.DefaultCellStyle.Font = new Font(dataGridView.Font.FontFamily, 12, FontStyle.Bold);
+            dataGridView.Columns.Add(deleteColumn);
         }
 
         private void DataGridView_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 6 && e.RowIndex >= 0)
             {
-                DialogResult result = DarkMessageBox.Show(
+                var result = DarkMessageBox.Show(
                     Constants.Messages.DeleteConfirmation,
                     Constants.Messages.DeleteTitle,
                     MessageBoxButtons.YesNo,
@@ -125,7 +125,7 @@ namespace EwidencjaPojazdow
 
                 if (result == DialogResult.Yes)
                 {
-                    this.dataGridView.Rows.RemoveAt(e.RowIndex);
+                    dataGridView.Rows.RemoveAt(e.RowIndex);
                     
                     if (e.RowIndex < vehicles.Count)
                     {
@@ -141,17 +141,17 @@ namespace EwidencjaPojazdow
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(this.txtRegistration.Text) ||
-                    string.IsNullOrWhiteSpace(this.txtBrand.Text) ||
-                    string.IsNullOrWhiteSpace(this.txtModel.Text) ||
-                    string.IsNullOrWhiteSpace(this.txtYear.Text) ||
-                    string.IsNullOrWhiteSpace(this.txtOwner.Text))
+                if (string.IsNullOrWhiteSpace(txtRegistration.Text) ||
+                    string.IsNullOrWhiteSpace(txtBrand.Text) ||
+                    string.IsNullOrWhiteSpace(txtModel.Text) ||
+                    string.IsNullOrWhiteSpace(txtYear.Text) ||
+                    string.IsNullOrWhiteSpace(txtOwner.Text))
                 {
                     DarkMessageBox.Show(Constants.Messages.ValidationEmptyFields, Constants.Messages.ValidationTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (!int.TryParse(this.txtYear.Text, out int year) || year < 1900 || year > DateTime.Now.Year)
+                if (!int.TryParse(txtYear.Text, out int year) || year < 1900 || year > DateTime.Now.Year)
                 {
                     DarkMessageBox.Show(Constants.Messages.ValidationInvalidYear, Constants.Messages.ValidationTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -159,17 +159,17 @@ namespace EwidencjaPojazdow
 
                 var vehicle = new Vehicle
                 {
-                    RegistrationNumber = this.txtRegistration.Text,
-                    Brand = this.txtBrand.Text,
-                    Model = this.txtModel.Text,
+                    RegistrationNumber = txtRegistration.Text,
+                    Brand = txtBrand.Text,
+                    Model = txtModel.Text,
                     YearOfProduction = year,
-                    InspectionDate = this.dtInspection.Value,
-                    Owner = this.txtOwner.Text
+                    InspectionDate = dtInspection.Value,
+                    Owner = txtOwner.Text
                 };
 
                 vehicles.Add(vehicle);
 
-                this.dataGridView.Rows.Add(
+                dataGridView.Rows.Add(
                     vehicle.RegistrationNumber,
                     vehicle.Brand,
                     vehicle.Model,
@@ -191,13 +191,13 @@ namespace EwidencjaPojazdow
 
         private void ClearForm()
         {
-            this.txtRegistration.Clear();
-            this.txtBrand.Clear();
-            this.txtModel.Clear();
-            this.txtYear.Clear();
-            this.txtOwner.Clear();
-            this.dtInspection.Value = DateTime.Now;
-            this.txtRegistration.Focus();
+            txtRegistration.Clear();
+            txtBrand.Clear();
+            txtModel.Clear();
+            txtYear.Clear();
+            txtOwner.Clear();
+            dtInspection.Value = DateTime.Now;
+            txtRegistration.Focus();
         }
     }
 }
