@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwidencjaPrzegladow", "Ewid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwidencjaWeb", "EwidencjaWeb\EwidencjaWeb.csproj", "{DB2C7F7A-F3D0-4BB6-BC72-88E01474F837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwidencjaWebAdvanced", "EwidencjaWebAdvanced\EwidencjaWebAdvanced.csproj", "{FE964D82-C775-4BA8-A1C6-58F43B43E3ED}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{DB2C7F7A-F3D0-4BB6-BC72-88E01474F837}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2C7F7A-F3D0-4BB6-BC72-88E01474F837}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2C7F7A-F3D0-4BB6-BC72-88E01474F837}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE964D82-C775-4BA8-A1C6-58F43B43E3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE964D82-C775-4BA8-A1C6-58F43B43E3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE964D82-C775-4BA8-A1C6-58F43B43E3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE964D82-C775-4BA8-A1C6-58F43B43E3ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
