@@ -79,6 +79,23 @@
                 </tr>
             </thead>
             <tbody>
+                @if (!Model.Vehicles.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            @if (!string.IsNullOrEmpty(Model.CurrentFilter))
+                            {
+                                <i class="bi bi-search fs-1 d-block mb-2"></i>
+                                <span>Brak wyników dla wyszukiwania: "<strong>@Model.CurrentFilter</strong>"</span>
+                            }
+                            else
+                            {
+                                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                <span>Brak pojazdów w bazie. Dodaj pierwszy pojazd!</span>
+                            }
+                        </td>
+                    </tr>
+                }
                 @foreach (var vehicle in Model.Vehicles)
                 {
                     <tr>
@@ -95,7 +112,7 @@
                                 Edytuj
                             </button>
                             <button type="button" class="btn btn-sm btn-danger" 
-                                    onclick="prepareDelete('@vehicle.Id')" 
+                                    onclick="prepareDelete('@vehicle.Id', '@vehicle.RegistrationNumber')" 
                                     data-bs-toggle="modal" data-bs-target="#deleteModal">
                                 Usuń
                             </button>
@@ -178,6 +195,9 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" asp-for="NewVehicle.Id" />
+                    <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
+                    <input type="hidden" name="pageIndex" value="@Model.PageIndex" />
+                    <input type="hidden" name="currentFilter" value="@Model.CurrentFilter" />
                     
                     <div class="mb-3">
                         <label asp-for="NewVehicle.RegistrationNumber" class="form-label"></label>
@@ -232,12 +252,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Czy na pewno chcesz usunąć ten pojazd? Tej operacji nie można cofnąć.
+                Czy na pewno chcesz usunąć pojazd <strong id="deleteRegNumber"></strong>? <br/>
+                Tej operacji nie można cofnąć.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
                 <form method="post" asp-page-handler="Delete" id="deleteForm">
                     <input type="hidden" name="id" id="deleteId" />
+                    <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
+                    <input type="hidden" name="pageIndex" value="@Model.PageIndex" />
+                    <input type="hidden" name="currentFilter" value="@Model.CurrentFilter" />
                     <button type="submit" class="btn btn-danger">Usuń</button>
                 </form>
             </div>

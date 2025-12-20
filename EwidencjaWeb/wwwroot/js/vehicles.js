@@ -24,6 +24,7 @@ function prepareEdit(id, reg, brand, model, year, date, owner) {
     document.getElementById('NewVehicle_Owner').value = owner;
 }
 
-function prepareDelete(id) {
+function prepareDelete(id, regNumber) {
     document.getElementById('deleteId').value = id;
+    document.getElementById('deleteRegNumber').innerText = regNumber;
 }
