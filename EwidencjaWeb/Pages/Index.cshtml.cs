@@ -6,9 +6,10 @@ namespace EwidencjaWeb.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    private const int _defaultFirstPage = 1;
+    private const int _defaultPageSize = 5;
 
-    private static List<Vehicle> _vehicles = new List<Vehicle>();
+    private static List<Vehicle> _vehicles = [];
 
     static IndexModel()
     {
@@ -26,7 +27,7 @@ public class IndexModel : PageModel
         };
 
         var random = new Random();
-        for (int i = 1; i <= 18; i++)
+        for (var i = 1; i <= 20; i++)
         {
             var brand = brands[random.Next(brands.Length)];
             var model = models[brand][random.Next(models[brand].Length)];
@@ -42,11 +43,6 @@ public class IndexModel : PageModel
                 Owner = $"Właściciel {i}" 
             });
         }
-    }
-
-    public IndexModel(ILogger<IndexModel> logger)
-    {
-        _logger = logger;
     }
 
     public IList<Vehicle> Vehicles { get; set; } = default!;
@@ -68,19 +64,24 @@ public class IndexModel : PageModel
     public bool HasPreviousPage => PageIndex > 1;
     public bool HasNextPage => PageIndex < TotalPages;
 
-    public void OnGet(string sortOrder, string currentFilter, string searchString, int? pageIndex)
+    public void OnGet(string? sortOrder, string? currentFilter, string? searchString, int? pageIndex)
+    {
+        PopulateModel(sortOrder, currentFilter, searchString, pageIndex);
+    }
+
+    private void PopulateModel(string? sortOrder, string? currentFilter, string? searchString, int? pageIndex)
     {
         CurrentSort = sortOrder;
-        NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-        BrandSort = sortOrder == "Brand" ? "brand_desc" : "Brand";
-        ModelSort = sortOrder == "Model" ? "model_desc" : "Model";
-        YearSort = sortOrder == "Year" ? "year_desc" : "Year";
-        DateSort = sortOrder == "Date" ? "date_desc" : "Date";
-        OwnerSort = sortOrder == "Owner" ? "owner_desc" : "Owner";
+        NameSort = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        BrandSort = sortOrder == "brand_asc" ? "brand_desc" : "brand_asc";
+        ModelSort = sortOrder == "model_asc" ? "model_desc" : "model_asc";
+        YearSort = sortOrder == "year_asc" ? "year_desc" : "year_asc";
+        DateSort = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+        OwnerSort = sortOrder == "owner_asc" ? "owner_desc" : "owner_asc";
 
         if (searchString != null)
         {
-            pageIndex = 1;
+            pageIndex = _defaultFirstPage;
         }
         else
         {
@@ -89,12 +90,12 @@ public class IndexModel : PageModel
 
         CurrentFilter = searchString;
 
-        IQueryable<Vehicle> vehiclesIQ = _vehicles.AsQueryable();
+        var vehicles = _vehicles.AsQueryable();
 
-        if (!String.IsNullOrEmpty(searchString))
+        if (!string.IsNullOrEmpty(searchString))
         {
             var s = searchString.ToLower();
-            vehiclesIQ = vehiclesIQ.Where(v => 
+            vehicles = vehicles.Where(v => 
                 v.RegistrationNumber.ToLower().Contains(s) || 
                 v.Brand.ToLower().Contains(s) ||
                 v.Model.ToLower().Contains(s) ||
@@ -102,73 +103,64 @@ public class IndexModel : PageModel
                 v.YearOfProduction.ToString().Contains(s));
         }
 
-        switch (sortOrder)
+        vehicles = sortOrder switch
         {
-            case "name_desc":
-                vehiclesIQ = vehiclesIQ.OrderByDescending(s => s.RegistrationNumber);
-                break;
-            case "Brand":
-                vehiclesIQ = vehiclesIQ.OrderBy(s => s.Brand);
-                break;
-            case "brand_desc":
-                vehiclesIQ = vehiclesIQ.OrderByDescending(s => s.Brand);
-                break;
-            case "Model":
-                vehiclesIQ = vehiclesIQ.OrderBy(s => s.Model);
-                break;
-            case "model_desc":
-                vehiclesIQ = vehiclesIQ.OrderByDescending(s => s.Model);
-                break;
-            case "Year":
-                vehiclesIQ = vehiclesIQ.OrderBy(s => s.YearOfProduction);
-                break;
-            case "year_desc":
-                vehiclesIQ = vehiclesIQ.OrderByDescending(s => s.YearOfProduction);
-                break;
-            case "Date":
-                vehiclesIQ = vehiclesIQ.OrderBy(s => s.InspectionDate);
-                break;
-            case "date_desc":
-                vehiclesIQ = vehiclesIQ.OrderByDescending(s => s.InspectionDate);
-                break;
-            case "Owner":
-                vehiclesIQ = vehiclesIQ.OrderBy(s => s.Owner);
-                break;
-            case "owner_desc":
-                vehiclesIQ = vehiclesIQ.OrderByDescending(s => s.Owner);
-                break;
-            default:
-                vehiclesIQ = vehiclesIQ.OrderBy(s => s.RegistrationNumber);
-                break;
-        }
+            "name_desc" => vehicles.OrderByDescending(s => s.RegistrationNumber),
+            "brand_asc" => vehicles.OrderBy(s => s.Brand),
+            "brand_desc" => vehicles.OrderByDescending(s => s.Brand),
+            "model_asc" => vehicles.OrderBy(s => s.Model),
+            "model_desc" => vehicles.OrderByDescending(s => s.Model),
+            "year_asc" => vehicles.OrderBy(s => s.YearOfProduction),
+            "year_desc" => vehicles.OrderByDescending(s => s.YearOfProduction),
+            "date_asc" => vehicles.OrderBy(s => s.InspectionDate),
+            "date_desc" => vehicles.OrderByDescending(s => s.InspectionDate),
+            "owner_asc" => vehicles.OrderBy(s => s.Owner),
+            "owner_desc" => vehicles.OrderByDescending(s => s.Owner),
+            _ => vehicles.OrderBy(s => s.RegistrationNumber)
+        };
 
-        int pageSize = 5;
-        PageIndex = pageIndex ?? 1;
-        var count = vehiclesIQ.Count();
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+        PageIndex = pageIndex ?? _defaultFirstPage;
+
+        var count = vehicles.Count();
+        TotalPages = (int)Math.Ceiling(count / (double)_defaultPageSize);
+
+        if (PageIndex > TotalPages && TotalPages > 0)
+        {
+            PageIndex = TotalPages;
+        }
             
-        Vehicles = vehiclesIQ.Skip((PageIndex - 1) * pageSize).Take(pageSize).ToList();
+        Vehicles = vehicles.Skip((PageIndex - 1) * _defaultPageSize).Take(_defaultPageSize).ToList();
     }
 
-    public IActionResult OnPostAdd(string sortOrder, int? pageIndex, string currentFilter)
+    public IActionResult OnPostAdd(string? sortOrder, int? pageIndex, string? currentFilter)
     {
         if (!ModelState.IsValid)
         {
             TempData["Error"] = "Formularz zawiera błędy. Sprawdź poprawność danych.";
+            ViewData["OpenAddModal"] = true;
+
+            PopulateModel(sortOrder, currentFilter, currentFilter, pageIndex);
+
             return Page();
         }
 
         NewVehicle.Id = Guid.NewGuid();
         _vehicles.Add(NewVehicle);
+
         TempData["Success"] = "Pojazd został dodany pomyślnie!";
+        
         return RedirectToPage(new { sortOrder, pageIndex, currentFilter });
     }
 
-    public IActionResult OnPostEdit(string sortOrder, int? pageIndex, string currentFilter)
+    public IActionResult OnPostEdit(string? sortOrder, int? pageIndex, string? currentFilter)
     {
         if (!ModelState.IsValid)
         {
             TempData["Error"] = "Formularz zawiera błędy. Sprawdź poprawność danych.";
+            ViewData["OpenEditModalId"] = NewVehicle.Id;
+
+            PopulateModel(sortOrder, currentFilter, currentFilter, pageIndex);
+
             return Page();
         }
 
@@ -181,6 +173,7 @@ public class IndexModel : PageModel
             existing.YearOfProduction = NewVehicle.YearOfProduction;
             existing.InspectionDate = NewVehicle.InspectionDate;
             existing.Owner = NewVehicle.Owner;
+
             TempData["Success"] = "Dane pojazdu zostały zaktualizowane!";
         }
         else
@@ -191,9 +184,10 @@ public class IndexModel : PageModel
         return RedirectToPage(new { sortOrder, pageIndex, currentFilter });
     }
 
-    public IActionResult OnPostDelete(Guid id, string sortOrder, int? pageIndex, string currentFilter)
+    public IActionResult OnPostDelete(Guid id, string? sortOrder, int? pageIndex, string? currentFilter)
     {
         var vehicle = _vehicles.FirstOrDefault(v => v.Id == id);
+
         if (vehicle != null)
         {
             _vehicles.Remove(vehicle);
@@ -203,6 +197,7 @@ public class IndexModel : PageModel
         {
             TempData["Error"] = "Nie znaleziono pojazdu do usunięcia.";
         }
+
         return RedirectToPage(new { sortOrder, pageIndex, currentFilter });
     }
 }

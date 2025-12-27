@@ -16,13 +16,14 @@
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             @TempData["Error"]
+            <div asp-validation-summary="All" class="mb-0 mt-2"></div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1>Lista Pojazdów</h1>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vehicleModal" onclick="prepareAdd()">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
             <i class="bi bi-plus-lg"></i> Dodaj pojazd
         </button>
     </div>
@@ -96,8 +97,12 @@
                         </td>
                     </tr>
                 }
+
                 @foreach (var vehicle in Model.Vehicles)
                 {
+                    var isEditError = ViewData["OpenEditModalId"]?.ToString() == vehicle.Id.ToString();
+                    var editVehicle = isEditError ? Model.NewVehicle : vehicle;
+
                     <tr>
                         <td data-label="Nr rejestracyjny">@vehicle.RegistrationNumber</td>
                         <td data-label="Marka">@vehicle.Brand</td>
@@ -107,17 +112,94 @@
                         <td data-label="Właściciel">@vehicle.Owner</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-warning me-1" 
-                                    onclick="prepareEdit('@vehicle.Id', '@vehicle.RegistrationNumber', '@vehicle.Brand', '@vehicle.Model', '@vehicle.YearOfProduction', '@vehicle.InspectionDate.ToString("yyyy-MM-dd")', '@vehicle.Owner')"
-                                    data-bs-toggle="modal" data-bs-target="#vehicleModal">
+                                    data-bs-toggle="modal" data-bs-target="#editModal-@vehicle.Id">
                                 Edytuj
                             </button>
                             <button type="button" class="btn btn-sm btn-danger" 
-                                    onclick="prepareDelete('@vehicle.Id', '@vehicle.RegistrationNumber')" 
-                                    data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal-@vehicle.Id">
                                 Usuń
                             </button>
                         </td>
                     </tr>
+
+                    <div class="modal fade" id="editModal-@vehicle.Id" tabindex="-1" aria-hidden="true" @(isEditError ? "data-auto-open=true" : "")>
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" asp-page-handler="Edit">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edytuj pojazd</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-start">
+                                        <input type="hidden" name="NewVehicle.Id" value="@vehicle.Id" />
+                                        <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
+                                        <input type="hidden" name="pageIndex" value="@Model.PageIndex" />
+                                        <input type="hidden" name="currentFilter" value="@Model.CurrentFilter" />
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Nr rejestracyjny</label>
+                                            <input name="NewVehicle.RegistrationNumber" value="@editVehicle.RegistrationNumber" class="form-control" />
+                                            <span asp-validation-for="NewVehicle.RegistrationNumber" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Marka</label>
+                                            <input name="NewVehicle.Brand" value="@editVehicle.Brand" class="form-control" />
+                                            <span asp-validation-for="NewVehicle.Brand" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Model</label>
+                                            <input name="NewVehicle.Model" value="@editVehicle.Model" class="form-control" />
+                                            <span asp-validation-for="NewVehicle.Model" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Rok produkcji</label>
+                                            <input name="NewVehicle.YearOfProduction" value="@editVehicle.YearOfProduction" class="form-control" />
+                                            <span asp-validation-for="NewVehicle.YearOfProduction" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Data przeglądu</label>
+                                            <input name="NewVehicle.InspectionDate" type="date" value="@editVehicle.InspectionDate.ToString("yyyy-MM-dd")" class="form-control" />
+                                            <span asp-validation-for="NewVehicle.InspectionDate" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Właściciel</label>
+                                            <input name="NewVehicle.Owner" value="@editVehicle.Owner" class="form-control" />
+                                            <span asp-validation-for="NewVehicle.Owner" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                        <button type="submit" class="btn btn-primary">Zapisz</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="deleteModal-@vehicle.Id" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Potwierdzenie usunięcia</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    Czy na pewno chcesz usunąć pojazd <strong>@vehicle.RegistrationNumber</strong>? <br/>
+                                    Tej operacji nie można cofnąć.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                                    <form method="post" asp-page-handler="Delete">
+                                        <input type="hidden" name="id" value="@vehicle.Id" />
+                                        <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
+                                        <input type="hidden" name="pageIndex" value="@Model.PageIndex" />
+                                        <input type="hidden" name="currentFilter" value="@Model.CurrentFilter" />
+                                        <button type="submit" class="btn btn-danger">Usuń</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             </tbody>
         </table>
@@ -167,71 +249,75 @@
 @functions {
     string GetSortIcon(string column)
     {
-        string upArrow = "<i class=\"bi bi-arrow-up\"></i>";
-        string downArrow = "<i class=\"bi bi-arrow-down\"></i>";
-        string neutralArrow = "<i class=\"bi bi-arrow-down-up text-muted\" style=\"opacity: 0.5;\"></i>";
+        const string upArrow = "<i class=\"bi bi-arrow-up\"></i>";
+        const string downArrow = "<i class=\"bi bi-arrow-down\"></i>";
+        const string neutralArrow = "<i class=\"bi bi-arrow-down-up text-muted\" style=\"opacity: 0.5;\"></i>";
 
-        if (column == "Name")
+        if (column.ToLower() == "name")
         {
-            if (String.IsNullOrEmpty(Model.CurrentSort)) return upArrow;
-            if (Model.CurrentSort == "name_desc") return downArrow;
-            return neutralArrow;
+            return string.IsNullOrEmpty(Model.CurrentSort) ? upArrow :
+                   Model.CurrentSort == "name_desc" ? downArrow :
+                   neutralArrow;
         }
 
-        if (Model.CurrentSort == column) return upArrow;
-        if (Model.CurrentSort == column.ToLower() + "_desc") return downArrow;
-
-        return neutralArrow;
+        return Model.CurrentSort == column.ToLower() + "_asc" ? upArrow :
+               Model.CurrentSort == column.ToLower() + "_desc" ? downArrow :
+               neutralArrow;
     }
 }
 
-<div class="modal fade" id="vehicleModal" tabindex="-1" aria-labelledby="vehicleModalLabel" aria-hidden="true">
+@{
+    var isAddError = ViewData["OpenAddModal"] as bool? == true;
+    var addVehicle = isAddError ? Model.NewVehicle : new EwidencjaWeb.Models.Vehicle { InspectionDate = DateTime.Today };
+}
+
+<div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true" @(isAddError ? "data-auto-open=true" : "")>
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" id="vehicleForm">
+            <form method="post" asp-page-handler="Add">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="vehicleModalLabel">Dodaj pojazd</h5>
+                    <h5 class="modal-title" id="addVehicleModalLabel">Dodaj pojazd</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" asp-for="NewVehicle.Id" />
+                    <input type="hidden" name="NewVehicle.Id" value="00000000-0000-0000-0000-000000000000" />
                     <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
                     <input type="hidden" name="pageIndex" value="@Model.PageIndex" />
                     <input type="hidden" name="currentFilter" value="@Model.CurrentFilter" />
                     
                     <div class="mb-3">
                         <label asp-for="NewVehicle.RegistrationNumber" class="form-label"></label>
-                        <input asp-for="NewVehicle.RegistrationNumber" class="form-control" />
+                        <input asp-for="NewVehicle.RegistrationNumber" class="form-control" value="@addVehicle.RegistrationNumber" />
                         <span asp-validation-for="NewVehicle.RegistrationNumber" class="text-danger"></span>
                     </div>
                     
                     <div class="mb-3">
                         <label asp-for="NewVehicle.Brand" class="form-label"></label>
-                        <input asp-for="NewVehicle.Brand" class="form-control" />
+                        <input asp-for="NewVehicle.Brand" class="form-control" value="@addVehicle.Brand" />
                         <span asp-validation-for="NewVehicle.Brand" class="text-danger"></span>
                     </div>
                     
                     <div class="mb-3">
                         <label asp-for="NewVehicle.Model" class="form-label"></label>
-                        <input asp-for="NewVehicle.Model" class="form-control" />
+                        <input asp-for="NewVehicle.Model" class="form-control" value="@addVehicle.Model" />
                         <span asp-validation-for="NewVehicle.Model" class="text-danger"></span>
                     </div>
                     
                     <div class="mb-3">
                         <label asp-for="NewVehicle.YearOfProduction" class="form-label"></label>
-                        <input asp-for="NewVehicle.YearOfProduction" class="form-control" />
+                        <input asp-for="NewVehicle.YearOfProduction" class="form-control" value="@(isAddError ? addVehicle.YearOfProduction.ToString() : "")" />
                         <span asp-validation-for="NewVehicle.YearOfProduction" class="text-danger"></span>
                     </div>
                     
                     <div class="mb-3">
                         <label asp-for="NewVehicle.InspectionDate" class="form-label"></label>
-                        <input asp-for="NewVehicle.InspectionDate" class="form-control" type="date" />
+                        <input asp-for="NewVehicle.InspectionDate" class="form-control" type="date" value="@addVehicle.InspectionDate.ToString("yyyy-MM-dd")" />
                         <span asp-validation-for="NewVehicle.InspectionDate" class="text-danger"></span>
                     </div>
                     
                     <div class="mb-3">
                         <label asp-for="NewVehicle.Owner" class="form-label"></label>
-                        <input asp-for="NewVehicle.Owner" class="form-control" />
+                        <input asp-for="NewVehicle.Owner" class="form-control" value="@addVehicle.Owner" />
                         <span asp-validation-for="NewVehicle.Owner" class="text-danger"></span>
                     </div>
                 </div>
@@ -244,32 +330,25 @@
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Potwierdzenie usunięcia</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Czy na pewno chcesz usunąć pojazd <strong id="deleteRegNumber"></strong>? <br/>
-                Tej operacji nie można cofnąć.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-                <form method="post" asp-page-handler="Delete" id="deleteForm">
-                    <input type="hidden" name="id" id="deleteId" />
-                    <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
-                    <input type="hidden" name="pageIndex" value="@Model.PageIndex" />
-                    <input type="hidden" name="currentFilter" value="@Model.CurrentFilter" />
-                    <button type="submit" class="btn btn-danger">Usuń</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/js/vehicles.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var modalToOpen = document.querySelector('[data-auto-open="true"]');
+
+            if (modalToOpen) {
+                var modal = new bootstrap.Modal(modalToOpen);
+                modal.show();
+            }
+
+            setTimeout(function () {
+                var alerts = document.querySelectorAll('.alert');
+
+                alerts.forEach(function (alert) {
+                    var bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+        });
+    </script>
 }
