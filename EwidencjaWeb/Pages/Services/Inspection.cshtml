@@ -1,0 +1,96 @@
+@page
+@{
+    ViewData["Title"] = "Umawianie przeglądów";
+}
+
+@section Hero {
+    <div class="w-100 mb-4">
+        <img src="~/img/reklama-1.png" class="d-block w-100 h-auto" alt="Umawianie przeglądów">
+    </div>
+}
+
+<div class="container mt-4">
+    <h1 class="display-4 text-center mb-4">Umawianie przeglądów</h1>
+    <p class="lead text-center mb-5">Zapewnij swojemu pojazdowi profesjonalny przegląd techniczny.</p>
+    
+    <div class="row g-4 mb-5">
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0"><i class="bi bi-shield-check me-2"></i>Kompleksowa oferta</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Oferujemy kompleksowe przeglądy rejestracyjne oraz okresowe, które są kluczowe dla utrzymania Twojego pojazdu w doskonałym stanie technicznym przez długie lata. Nasi wykwalifikowani specjaliści dokładnie sprawdzą każdy, nawet najmniejszy układ Twojego samochodu, abyś mógł podróżować bezpiecznie i bez obaw o niespodziewane awarie na drodze. Dysponujemy najnowocześniejszym sprzętem diagnostycznym dostępnym na rynku, który pozwala na precyzyjne wykrycie nawet najdrobniejszych usterek i nieprawidłowości, zanim staną się one poważnym i kosztownym problemem. Regularne przeglądy to nie tylko wymóg prawny, ale przede wszystkim inwestycja w Twoje bezpieczeństwo oraz spokój ducha podczas każdej podróży, niezależnie od jej długości.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0"><i class="bi bi-list-check me-2"></i>Zakres badania</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">W ramach standardowego przeglądu szczegółowo weryfikujemy stan układu hamulcowego, w tym klocków, tarcz i przewodów, a także sprawdzamy układ kierowniczy pod kątem luzów i wycieków. Kontroli podlega również zawieszenie, które odpowiada za komfort i stabilność prowadzenia, oraz pełne oświetlenie pojazdu, co jest niezbędne dla dobrej widoczności. Dodatkowo przeprowadzamy analizę emisji spalin, aby upewnić się, że Twój samochód spełnia obowiązujące normy ekologiczne. Nasi diagności to doświadczeni fachowcy z wieloletnim stażem, którzy nie tylko wykonają badanie, ale również służą fachową radą w zakresie codziennej eksploatacji pojazdu, podpowiadając, jak dbać o auto, by służyło jak najdłużej. Po zakończeniu przeglądu otrzymasz od nas szczegółowy, czytelny raport o stanie technicznym Twojego auta wraz z ewentualnymi zaleceniami naprawczymi.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0"><i class="bi bi-clock-history me-2"></i>Wygoda i czas</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Szanujemy Twój cenny czas, dlatego stworzyliśmy elastyczny system rezerwacji, który oferuje możliwość wygodnego umówienia wizyty na konkretną godzinę, dopasowaną do Twojego harmonogramu dnia. Dzięki temu unikniesz stresującego stania w kolejkach i sprawnie załatwisz wszelkie niezbędne formalności związane z przeglądem. Nasza stacja kontroli pojazdów jest zaprojektowana z myślą o komforcie klientów – podczas gdy my zajmiemy się Twoim samochodem, Ty możesz odpocząć w naszej poczekalni, korzystając z darmowego Wi-Fi i pysznej kawy. Zapraszamy serdecznie do skorzystania z naszych profesjonalnych usług – Twoje bezpieczeństwo i satysfakcja są dla nas absolutnym priorytetem, dlatego dokładamy wszelkich starań, aby każda wizyta przebiegała w przyjaznej i profesjonalnej atmosferze.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-5">
+        <a href="#" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow"><i class="bi bi-calendar-check me-2"></i>Umów wizytę</a>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <h2 class="text-center mb-4">Często zadawane pytania (FAQ)</h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Ile czasu trwa standardowy przegląd rejestracyjny?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Standardowy przegląd rejestracyjny samochodu osobowego trwa zazwyczaj około <strong>20-30 minut</strong>. W przypadku wykrycia usterek czas ten może się wydłużyć, ponieważ diagnosta musi dokładnie opisać problem.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Co muszę zabrać ze sobą na przegląd?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Na przegląd należy zabrać ze sobą <strong>dowód rejestracyjny pojazdu</strong>. Jeśli pojazd posiada instalację gazową LPG/CNG, konieczne jest również okazanie ważnego dokumentu legalizacji zbiornika.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Co się stanie, jeśli samochód nie przejdzie przeglądu?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Jeśli diagnosta stwierdzi usterki zagrażające bezpieczeństwu lub środowisku, zatrzyma dowód rejestracyjny (wirtualnie w systemie CEPiK). Masz wtedy <strong>14 dni</strong> na usunięcie usterek i ponowne zgłoszenie się na stację w celu weryfikacji naprawy (tzw. badanie poprawkowe).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

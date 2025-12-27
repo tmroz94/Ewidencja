@@ -7,7 +7,8 @@ namespace EwidencjaWeb.Pages;
 public class IndexModel : PageModel
 {
     private const int _defaultFirstPage = 1;
-    private const int _defaultPageSize = 5;
+    private const int _defaultPageSize = 15;
+    private const int _amountOfGenerateVehicles = 50;
 
     private static List<Vehicle> _vehicles = [];
 
@@ -27,7 +28,7 @@ public class IndexModel : PageModel
         };
 
         var random = new Random();
-        for (var i = 1; i <= 20; i++)
+        for (var i = 1; i <= _amountOfGenerateVehicles; i++)
         {
             var brand = brands[random.Next(brands.Length)];
             var model = models[brand][random.Next(models[brand].Length)];
