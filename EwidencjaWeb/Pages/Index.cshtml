@@ -398,10 +398,8 @@
 
             var carouselElement = document.querySelector('#adCarousel');
             if (carouselElement) {
-                var carousel = new bootstrap.Carousel(carouselElement, {
-                    interval: 3000,
-                    ride: 'carousel'
-                });
+                var carousel = bootstrap.Carousel.getOrCreateInstance(carouselElement);
+                carousel.cycle();
             }
 
             setTimeout(function () {
